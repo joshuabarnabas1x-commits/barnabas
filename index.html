@@ -12,7 +12,7 @@
         button { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
         .btn-papa { background-color: #e11d48; color: white; }
         .btn-maman { background-color: #db2777; color: white; }
-        button:active { transform: scale(0.98); opacity: 0.8; }
+        button:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -29,8 +29,14 @@
             <p style="font-style: italic; font-size: 0.95em;">"La vie est toujours facile lorsqu'on est innocent."</p>
         </div>
 
-        <button class="btn-papa" onclick="window.location.href='https://wa.me/numéro_ici?text=Salut%20Papa'">ENVOYER A PAPA</button>
-        <button class="btn-maman" onclick="window.location.href='https://wa.me/numéro_ici?text=Salut%20Maman'">ENVOYER A MAMAN</button>
+        <button class="btn-papa" onclick="afficherInfos('Papa', 'Voici les infos pour Papa : Il est super ! \nProjet en cours : Application mobile.')">INFOS POUR PAPA</button>
+        <button class="btn-maman" onclick="afficherInfos('Maman', 'Voici les infos pour Maman : Elle est géniale ! \nStatut : En ligne sur le Hub.')">INFOS POUR MAMAN</button>
     </div>
+
+    <script>
+        function afficherInfos(nom, texte) {
+            alert(texte);
+        }
+    </script>
 </body>
 </html>

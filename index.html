@@ -9,9 +9,10 @@
         .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 25px; width: 90%; max-width: 400px; text-align: center; }
         .welcome-box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; }
         .wisdom-box { background-color: #1e293b; border-left: 5px solid #ff4d6d; padding: 15px; margin: 20px 0; text-align: left; border-radius: 10px; }
-        button { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        button { width: 100%; padding: 15px; margin: 10px 0; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
         .btn-papa { background-color: #e11d48; color: white; }
         .btn-maman { background-color: #db2777; color: white; }
+        button:active { transform: scale(0.98); opacity: 0.8; }
     </style>
 </head>
 <body>
@@ -24,13 +25,12 @@
         </div>
 
         <div class="wisdom-box">
-            <h4 style="margin-top: 0; color: #ff4d6d;">💡 Mes Adages & Proverbes</h4>
-            <p style="font-style: italic; font-size: 0.9em;">"Le savoir est une arme, le partage est une force."</p>
-            <p style="font-style: italic; font-size: 0.9em;">"Écris ici ton deuxième proverbe..."</p>
+            <h4 style="margin-top: 0; color: #ff4d6d;">💡 Mon Adage du Jour</h4>
+            <p style="font-style: italic; font-size: 0.95em;">"La vie est toujours facile lorsqu'on est innocent."</p>
         </div>
 
-        <button class="btn-papa">ENVOYER A PAPA</button>
-        <button class="btn-maman">ENVOYER A MAMAN</button>
+        <button class="btn-papa" onclick="window.location.href='https://wa.me/numéro_ici?text=Salut%20Papa'">ENVOYER A PAPA</button>
+        <button class="btn-maman" onclick="window.location.href='https://wa.me/numéro_ici?text=Salut%20Maman'">ENVOYER A MAMAN</button>
     </div>
 </body>
 </html>

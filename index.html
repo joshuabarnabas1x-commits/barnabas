@@ -4,77 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barnabas Hub</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff4d6d">
     <style>
         body { background-color: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
         .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 15px; width: 100%; max-width: 400px; text-align: center; }
-        .section-box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; text-align: left; }
-        .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff4d6d; margin: 0 auto 15px; background: #0f172a; overflow: hidden; }
-        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
-        #chat-box { max-height: 100px; overflow-y: auto; margin-bottom: 10px; padding: 8px; background: #0f172a; border-radius: 10px; border: 1px solid #444; }
-        .msg { margin-bottom: 5px; font-size: 0.9em; border-bottom: 1px solid #334155; padding-bottom: 3px; }
-        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #00f2ff; background: #0f172a; color: white; box-sizing: border-box; font-size: 16px; }
+        .box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; text-align: left; }
+        #chat-box { max-height: 100px; overflow-y: auto; background: #0f172a; padding: 10px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #444; }
+        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #00f2ff; background: #0f172a; color: white; box-sizing: border-box; }
         .card { border: 1px solid #00f2ff; padding: 12px; border-radius: 12px; margin-top: 10px; background: rgba(0, 242, 255, 0.1); }
-        .t-list { font-size: 0.85em; color: #cbd5e1; margin-top: 8px; padding-top: 8px; border-top: 1px dotted #00f2ff; }
+        .t-list { font-size: 0.85em; color: #cbd5e1; margin-top: 5px; border-top: 1px solid #444; padding-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="profile-pic">
-        <img src="icon.png" onerror="this.src='https://via.placeholder.com/80?text=B'">
-    </div>
+    <h1 style="font-size: 1.4em; color: #ff4d6d;">Barnabas Hub 🇨🇩</h1>
 
-    <div class="section-box" style="text-align:center;">
-        <h1 style="margin:0; font-size: 1.5em;">Barnabas Hub 🇨🇩</h1>
-    </div>
-
-    <div class="section-box">
-        <h3 style="margin:0; color:#ff4d6d; font-size: 1em;">💬 Discussion</h3>
+    <div class="box">
+        <h3 style="margin:0; color:#ff4d6d;">💬 Discussion</h3>
         <div id="chat-box">
-            <div class="msg"><strong style="color:#ff4d6d;">Jospin:</strong> Salut ! Ça marche ?</div>
+            <div><strong style="color:#ff4d6d;">Jospin:</strong> Salut ! Ça doit marcher là.</div>
         </div>
         <div style="display: flex; gap: 5px;">
-            <input type="text" id="input-chat" placeholder="Message..." style="flex:1; padding:8px; border-radius:5px; border:1px solid #ff4d6d; background:#1e293b; color:white;">
-            <button onclick="envoyer()" style="background:#ff4d6d; color:white; border:none; padding:8px 12px; border-radius:5px; font-weight:bold;">OK</button>
+            <input type="text" id="msg" placeholder="Message..." style="flex:1; padding:8px; border-radius:5px; border:1px solid #ff4d6d; background:#0f172a; color:white;">
+            <button onclick="envoyer()" style="background:#ff4d6d; color:white; border:none; padding:8px 15px; border-radius:5px; font-weight:bold;">OK</button>
         </div>
     </div>
 
-    <div class="section-box" style="border-color: #00f2ff;">
-        <h3 style="margin:0; color:#00f2ff; font-size: 1em;">🔍 Geo-RDC Explorer</h3>
-        <input type="text" id="moteur" placeholder="Province ou territoire..." oninput="chercher()">
+    <div class="box" style="border-color: #00f2ff;">
+        <h3 style="margin:0; color:#00f2ff;">🔍 Geo-RDC Explorer</h3>
+        <input type="text" id="moteur" placeholder="Tapez 'Katanga' ou 'Kin'..." oninput="chercher()">
         <div id="resultats"></div>
     </div>
 </div>
 
-<script src="rdc.js"></script>
-
 <script>
-// FONCTION CHAT
+// TES DONNÉES SONT MAINTENANT ICI (Plus d'erreur possible avec rdc.js)
+const mesDonnees = {
+    provinces: [
+        { nom: "Haut-Katanga", chef_lieu: "Lubumbashi", territoires: ["Sakania", "Kipushi", "Kambove", "Mitwaba", "Pweto"] },
+        { nom: "Kinshasa", chef_lieu: "Kinshasa", territoires: ["N'sele", "Maluku"] },
+        { nom: "Ituri", chef_lieu: "Bunia", territoires: ["Aru", "Mahagi", "Djugu", "Irumu", "Mambasa"] },
+        { nom: "Lualaba", chef_lieu: "Kolwezi", territoires: ["Mutshatsha", "Lubudi", "Dilolo", "Kapanga", "Sandoa"] }
+    ]
+};
+
 function envoyer() {
-    let input = document.getElementById("input-chat");
-    let box = document.getElementById("chat-box");
-    if(input.value.trim() !== "") {
-        box.innerHTML += `<div class="msg"><strong>Moi:</strong> ${input.value}</div>`;
-        input.value = "";
-        box.scrollTop = box.scrollHeight;
+    let m = document.getElementById("msg");
+    let b = document.getElementById("chat-box");
+    if(m.value.trim() !== "") {
+        b.innerHTML += `<div><strong>Moi:</strong> ${m.value}</div>`;
+        m.value = "";
+        b.scrollTop = b.scrollHeight;
     }
 }
 
-// FONCTION RECHERCHE CORRIGÉE
 function chercher() {
-    let val = document.getElementById("moteur").value.toLowerCase().trim();
-    let zone = document.getElementById("resultats");
-    zone.innerHTML = "";
-    
+    let val = document.getElementById("moteur").value.toLowerCase();
+    let res = document.getElementById("resultats");
+    res.innerHTML = "";
     if(val.length < 2) return;
 
-    if (typeof rdcData !== 'undefined') {
-        rdcData.provinces.forEach(p => {
-            let n = p.nom.toLowerCase();
-            let c = p.chef_lieu.toLowerCase();
-            let tStr = p.territoires ? p.territoires.join(" ").toLowerCase() : "";
-            
-            if(n.includes(val) || c.includes(val) || tStr.includes(val)) {
-                let liste = p.territoires ? p.territoires.join(", ") : "Ville-Province";
+    mesDonnees.provinces.forEach(p => {
+        if(p.nom.toLowerCase().includes(val) || p.chef_lieu.toLowerCase().includes(val)) {
+            res.innerHTML += `
+                <div class="card">
+                    <strong style="color:#00f2ff;">${p.nom}</strong><br>
+                    <small>📍 Chef-lieu: ${p.chef_lieu}</small>
+                    <div class="t-list">🏘️ ${p.territoires.join(", ")}</div>
+                </div>`;
+        }
+    });
+}
+</script>
+</body>
+</html>

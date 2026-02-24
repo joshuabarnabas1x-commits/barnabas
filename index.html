@@ -39,5 +39,31 @@
             <iframe src="https://www5.cbox.ws/box/?boxid=961518&boxtag=kbb9ke" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
         </div>
     </div>
-</body>
+</body><div style="padding: 20px; text-align: center;">
+    <h2 style="color: #00f2ff;">Barnabas Geo-RDC 🇨🇩</h2>
+    <input type="text" id="moteur" placeholder="Cherche une province ou un territoire..." 
+           onkeyup="chercher()" 
+           style="width: 80%; padding: 10px; border-radius: 20px; border: 1px solid #ff00ff; background: #1a1a2e; color: white;">
+    <div id="affichage" style="margin-top: 20px;"></div>
+</div><script src="rdc.js"></script>
+<script>
+function chercher() {
+    let texte = document.getElementById('moteur').value.toLowerCase();
+    let zone = document.getElementById('affichage');
+    zone.innerHTML = "";
+    if(texte.length < 2) return;
+
+    rdcData.provinces.forEach(p => {
+        if(p.nom.toLowerCase().includes(texte) || (p.territoires && p.territoires.some(t => t.toLowerCase().includes(texte)))) {
+            zone.innerHTML += `
+                <div style="border: 1px solid #00f2ff; padding: 15px; border-radius: 10px; margin-bottom: 10px; background: rgba(0,242,255,0.1);">
+                    <h3 style="color: #ff00ff; margin: 0;">${p.nom}</h3>
+                    <p style="margin: 5px 0;"><b>Chef-lieu :</b> ${p.chef_lieu}</p>
+                    <p style="font-size: 0.9em;"><b>Territoires :</b> ${p.territoires ? p.territoires.join(', ') : 'Communes urbaines'}</p>
+                </div>`;
+        }
+    });
+}
+</script>
 </html>
+

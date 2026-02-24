@@ -4,69 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barnabas Hub</title>
-    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff4d6d">
-
     <style>
-        body { background-color: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 20px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 20px rgba(255, 77, 109, 0.2); }
-        .welcome-box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; }
-        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ff4d6d; background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 20px; font-size: 16px; }
-        .result-card { border: 1px solid #ff4d6d; padding: 15px; border-radius: 10px; margin-bottom: 10px; background: rgba(255, 77, 109, 0.1); text-align: left; }
-        .result-card h3 { color: #ff4d6d; margin: 0; font-size: 1.2em; }
-        .result-card p { font-size: 0.9em; margin: 5px 0; color: #cbd5e1; }
-        .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff4d6d; margin: 0 auto 15px; overflow: hidden; }
+        body { background-color: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
+        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 15px; width: 100%; max-width: 400px; text-align: center; }
+        .welcome-box, .section-box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; text-align: left; }
+        .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff4d6d; margin: 0 auto 15px; overflow: hidden; background: #0f172a; }
         .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ff4d6d; background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 15px; }
+        .result-card { border: 1px solid #00f2ff; padding: 10px; border-radius: 10px; margin-bottom: 10px; background: rgba(0, 242, 255, 0.1); }
+        .adage { border-left: 5px solid #ff4d6d; padding-left: 10px; font-style: italic; }
+        .chat-msg { background: #0f172a; padding: 10px; border-radius: 10px; margin-top: 10px; font-size: 0.9em; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="profile-pic">
-        <img src="icon.png" alt="Barnabas" onerror="this.src='https://via.placeholder.com/80?text=B'">
+        <img src="icon.png" onerror="this.src='https://via.placeholder.com/80?text=B'">
     </div>
 
-    <div class="welcome-box">
-        <h1 style="margin: 0; font-size: 1.5em;">Barnabas Hub 🇨🇩</h1>
-        <p style="font-size: 0.9em;">Explorateur des 26 Provinces</p>
+    <div class="welcome-box" style="text-align:center;">
+        <h1 style="margin:0;">Barnabas Hub 🇨🇩</h1>
+        <p>Espace interactif</p>
     </div>
 
-    <input type="text" id="moteur" placeholder="Tapez une province ou un territoire..." onkeyup="chercher()">
+    <div class="section-box">
+        <h3 style="margin-top:0; color:#ff4d6d;">💬 Discussion</h3>
+        <div class="chat-msg">
+            <strong>Jospin :</strong> Salut !<br>
+            <small style="color:gray;">il y a 8 heures</small>
+        </div>
+    </div>
 
-    <div id="affichage"></div>
+    <div class="section-box">
+        <h3 style="margin-top:0; color:#ff4d6d;">💡 Mon Adage</h3>
+        <p class="adage">"La vie est toujours facile lorsqu'on est innocent."</p>
+    </div>
+
+    <div class="section-box">
+        <h3 style="margin-top:0; color:#00f2ff;">🔍 Geo-RDC Explorer</h3>
+        <input type="text" id="moteur" placeholder="Province ou territoire..." onkeyup="chercher()">
+        <div id="affichage"></div>
+    </div>
 </div>
 
 <script src="rdc.js"></script>
-
 <script>
 function chercher() {
     let texte = document.getElementById("moteur").value.toLowerCase();
     let zone = document.getElementById("affichage");
     zone.innerHTML = "";
-    
     if(texte.length < 2) return;
-
-    // Vérification que les données rdc.js sont chargées
     if (typeof rdcData !== 'undefined') {
         rdcData.provinces.forEach(p => {
-            let matchProvince = p.nom.toLowerCase().includes(texte);
-            let matchTerritoire = p.territoires && p.territoires.some(t => t.toLowerCase().includes(texte));
-
-            if(matchProvince || matchTerritoire) {
+            let matchP = p.nom.toLowerCase().includes(texte);
+            let matchT = p.territoires && p.territoires.some(t => t.toLowerCase().includes(texte));
+            if(matchP || matchT) {
                 zone.innerHTML += `
                     <div class="result-card">
-                        <h3>${p.nom}</h3>
-                        <p><b>📍 Chef-lieu :</b> ${p.chef_lieu}</p>
-                        <p><b>🏘️ Territoires :</b> ${p.territoires ? p.territoires.join(', ') : 'Communes urbaines'}</p>
+                        <strong style="color:#00f2ff;">${p.nom}</strong><br>
+                        <small>Chef-lieu: ${p.chef_lieu}</small><br>
+                        <small style="font-size:0.8em; color:#ccc;">Territoires: ${p.territoires ? p.territoires.join(', ') : 'N/A'}</small>
                     </div>`;
             }
         });
-    } else {
-        zone.innerHTML = "<p style='color:red;'>Erreur : Fichier de données rdc.js non trouvé.</p>";
     }
 }
 </script>
-
 </body>
 </html>

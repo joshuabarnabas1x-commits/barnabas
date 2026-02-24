@@ -1,9 +1,30 @@
 const rdcData = {
   provinces: [
-    { nom: "Kinshasa", chef_lieu: "Kinshasa", entites: ["Gombe", "Ngaliema", "Limete", "Matete", "Kalamu"] },
+    { nom: "Bas-Uélé", chef_lieu: "Buta", territoires: ["Aketi", "Ango", "Bambesa", "Bondo", "Buta", "Poko"] },
+    { nom: "Équateur", chef_lieu: "Mbandaka", territoires: ["Basankusu", "Bikoro", "Bolomba", "Bomongo", "Ingende", "Lukolela", "Makanza"] },
+    { nom: "Haut-Katanga", chef_lieu: "Lubumbashi", territoires: ["Kambove", "Kasenga", "Kipushi", "Mitwaba", "Pweto", "Sakania"] },
+    { nom: "Haut-Lomami", chef_lieu: "Kamina", territoires: ["Bukama", "Kabongo", "Kamina", "Kaniama", "Malemba-Nkulu"] },
+    { nom: "Haut-Uélé", chef_lieu: "Isiro", territoires: ["Dungu", "Faradje", "Niangara", "Rungu", "Wamba", "Watsa"] },
+    { nom: "Ituri", chef_lieu: "Bunia", territoires: ["Aru", "Djugu", "Irumu", "Mahagi", "Mambasa"] },
+    { nom: "Kasaï", chef_lieu: "Tshikapa", territoires: ["Dekese", "Ilebo", "Kamonia", "Luebo", "Mweka"] },
+    { nom: "Kasaï Central", chef_lieu: "Kananga", territoires: ["Demba", "Dimbelenge", "Kazumba", "Luiza", "Dibaya"] },
+    { nom: "Kasaï Oriental", chef_lieu: "Mbuji-Mayi", territoires: ["Kabeya-Kamwanga", "Katanda", "Lupatapata", "Miabi", "Tshilenge"] },
+    { nom: "Kinshasa", chef_lieu: "Kinshasa", entites: ["24 Communes (Gombe, Ngaliema, etc.)"] },
+    { nom: "Kongo-Central", chef_lieu: "Matadi", territoires: ["Kasangulu", "Kimvula", "Lukula", "Luozi", "Madimba", "Mbanza-Ngungu", "Moanda", "Sekebanza", "Songololo", "Tshela"] },
+    { nom: "Kwango", chef_lieu: "Kenge", territoires: ["Feshi", "Kahemba", "Kasongo-Lunda", "Kenge", "Popokabaka"] },
+    { nom: "Kwilu", chef_lieu: "Bandundu", territoires: ["Bagata", "Bulungu", "Gungu", "Idiofa", "Masi-Manimba"] },
+    { nom: "Lomami", chef_lieu: "Kabinda", territoires: ["Kabinda", "Kamiji", "Lilu", "Luilu", "Ngandajika"] },
+    { nom: "Lualaba", chef_lieu: "Kolwezi", territoires: ["Dilolo", "Kapanga", "Lubudi", "Mutshatsha", "Sandoa"] },
+    { nom: "Mai-Ndombe", chef_lieu: "Inongo", territoires: ["Bolobo", "Inongo", "Kiri", "Kutu", "Kwamouth", "Mushie", "Oshwe", "Yumbi"] },
+    { nom: "Maniema", chef_lieu: "Kindu", territoires: ["Kabambare", "Kailo", "Kasongo", "Kibombo", "Lubutu", "Pangi", "Punia"] },
+    { nom: "Mongala", chef_lieu: "Lisala", territoires: ["Bongandanga", "Bumba", "Lisala"] },
     { nom: "Nord-Kivu", chef_lieu: "Goma", territoires: ["Beni", "Lubero", "Masisi", "Nyiragongo", "Rutshuru", "Walikale"] },
+    { nom: "Nord-Ubangi", chef_lieu: "Gbadolite", territoires: ["Bosobolo", "Businga", "Mobayi-Mbongo", "Yakoma"] },
+    { nom: "Sankuru", chef_lieu: "Lusambo", territoires: ["Katako-Kombe", "Kole", "Lodja", "Lomela", "Lubefu", "Lusambo"] },
     { nom: "Sud-Kivu", chef_lieu: "Bukavu", territoires: ["Fizi", "Idjwi", "Kabare", "Kalehe", "Mwenga", "Shabunda", "Uvira", "Walungu"] },
-    { nom: "Haut-Katanga", chef_lieu: "Lubumbashi", territoires: ["Kambove", "Kasenga", "Kipushi", "Mitwaba", "Pweto", "Sakania"] }
-    // On pourra ajouter les autres au fur et à mesure !
+    { nom: "Sud-Ubangi", chef_lieu: "Gemena", territoires: ["Budjala", "Gemena", "Kungu", "Libenge"] },
+    { nom: "Tanganyika", chef_lieu: "Kalemie", territoires: ["Kabalo", "Kalemie", "Kongolo", "Manono", "Moba", "Nyunzu"] },
+    { nom: "Tshopo", chef_lieu: "Kisangani", territoires: ["Bafwasende", "Banalia", "Basoko", "Isangi", "Opala", "Ubundu", "Yahuma"] },
+    { nom: "Tshuapa", chef_lieu: "Boende", territoires: ["Befale", "Boende", "Bokungu", "Djolu", "Ikela", "Monkoto"] }
   ]
 };

@@ -5,65 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barnabas Hub</title>
     <style>
-        body { background-color: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px 0; }
-        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 25px; width: 90%; max-width: 400px; text-align: center; }
-        
-        /* Style pour ta photo de profil */
-        .profile-pic { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #ff4d6d; margin: 0 auto 15px; overflow: hidden; background-color: #334155; }
-        .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
-
+        body { background-color: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 20px; width: 90%; max-width: 400px; text-align: center; }
         .welcome-box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; }
-        .wisdom-box { background-color: #1e293b; border-left: 5px solid #ff4d6d; padding: 15px; margin: 20px 0; text-align: left; border-radius: 10px; }
-        .chat-container { margin-top: 20px; border-radius: 15px; overflow: hidden; border: 2px solid #ff4d6d; background: white; height: 450px; }
+        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ff4d6d; background: #0f172a; color: white; box-sizing: border-box; margin-bottom: 20px; }
+        .result-card { border: 1px solid #ff4d6d; padding: 15px; border-radius: 10px; margin-bottom: 10px; background: rgba(255, 77, 109, 0.1); text-align: left; }
+        .result-card h3 { color: #ff4d6d; margin: 0; }
+        .result-card p { font-size: 0.9em; margin: 5px 0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="profile-pic">
-            <img src="https://via.placeholder.com/100" alt="Barnabas">
-        </div>
 
-        <h1>Barnabas Hub</h1>
-        
-        <div class="welcome-box">
-            <h3 style="margin: 0;">Bienvenue ! 👋</h3>
-            <p style="font-size: 14px;">Espace de discussion de Barnabas.</p>
-        </div>
-
-        <div class="wisdom-box">
-            <h4 style="margin-top: 0; color: #ff4d6d;">💡 Mon Adage</h4>
-            <p style="font-style: italic; font-size: 0.95em;">"La vie est toujours facile lorsqu'on est innocent."</p>
-        </div>
-
-        <div class="chat-container">
-            <iframe src="https://www5.cbox.ws/box/?boxid=961518&boxtag=kbb9ke" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
-        </div>
+<div class="container">
+    <div class="welcome-box">
+        <h1>Barnabas Hub 🇨🇩</h1>
+        <p>Explorateur des 26 Provinces</p>
     </div>
-</body><div style="padding: 20px; text-align: center;">
-    <h2 style="color: #00f2ff;">Barnabas Geo-RDC 🇨🇩</h2>
-    <input type="text" id="moteur" placeholder="Cherche une province ou un territoire..." 
-           onkeyup="chercher()" 
-           style="width: 80%; padding: 10px; border-radius: 20px; border: 1px solid #ff00ff; background: #1a1a2e; color: white;">
-    <div id="affichage" style="margin-top: 20px;"></div>
-</div><script src="rdc.js"></script>
+
+    <input type="text" id="moteur" placeholder="Chercher une province ou un territoire..." onkeyup="chercher()">
+
+    <div id="affichage"></div>
+</div>
+
+<script src="rdc.js"></script>
+
 <script>
 function chercher() {
-    let texte = document.getElementById('moteur').value.toLowerCase();
-    let zone = document.getElementById('affichage');
+    let texte = document.getElementById("moteur").value.toLowerCase();
+    let zone = document.getElementById("affichage");
     zone.innerHTML = "";
+    
     if(texte.length < 2) return;
 
-    rdcData.provinces.forEach(p => {
-        if(p.nom.toLowerCase().includes(texte) || (p.territoires && p.territoires.some(t => t.toLowerCase().includes(texte)))) {
-            zone.innerHTML += `
-                <div style="border: 1px solid #00f2ff; padding: 15px; border-radius: 10px; margin-bottom: 10px; background: rgba(0,242,255,0.1);">
-                    <h3 style="color: #ff00ff; margin: 0;">${p.nom}</h3>
-                    <p style="margin: 5px 0;"><b>Chef-lieu :</b> ${p.chef_lieu}</p>
-                    <p style="font-size: 0.9em;"><b>Territoires :</b> ${p.territoires ? p.territoires.join(', ') : 'Communes urbaines'}</p>
-                </div>`;
-        }
-    });
+    // Vérifie si rdcData est bien chargé
+    if (typeof rdcData !== 'undefined') {
+        rdcData.provinces.forEach(p => {
+            let matchProvince = p.nom.toLowerCase().includes(texte);
+            let matchTerritoire = p.territoires && p.territoires.some(t => t.toLowerCase().includes(texte));
+
+            if(matchProvince || matchTerritoire) {
+                zone.innerHTML += `
+                    <div class="result-card">
+                        <h3>${p.nom}</h3>
+                        <p><b>Chef-lieu :</b> ${p.chef_lieu}</p>
+                        <p><b>Territoires :</b> ${p.territoires ? p.territoires.join(', ') : 'Ville-Province'}</p>
+                    </div>`;
+            }
+        });
+    }
 }
 </script>
-</html>
 
+</body>
+</html>

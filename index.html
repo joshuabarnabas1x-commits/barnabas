@@ -8,23 +8,18 @@
     <meta name="theme-color" content="#ff4d6d">
     <style>
         body { background-color: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; }
-        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 15px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 20px rgba(255, 77, 109, 0.2); }
+        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 15px; width: 100%; max-width: 400px; text-align: center; }
         .section-box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; text-align: left; }
         .profile-pic { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff4d6d; margin: 0 auto 15px; overflow: hidden; background: #0f172a; }
         .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Recherche */
-        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #00f2ff; background: #0f172a; color: white; margin-bottom: 10px; font-size: 16px; }
+        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #00f2ff; background: #0f172a; color: white; margin-bottom: 10px; font-size: 16px; box-sizing: border-box; }
         .result-card { border: 1px solid #00f2ff; padding: 10px; border-radius: 10px; margin-bottom: 10px; background: rgba(0, 242, 255, 0.1); }
-        
-        /* Chat */
-        #chat-box { max-height: 150px; overflow-y: auto; margin-bottom: 10px; background: #0f172a; border-radius: 10px; padding: 10px; }
-        .chat-msg { margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 5px; }
+        #chat-box { max-height: 120px; overflow-y: auto; margin-bottom: 10px; background: #0f172a; border-radius: 10px; padding: 10px; border: 1px solid #444; }
+        .chat-msg { margin-bottom: 8px; border-bottom: 1px solid #334155; padding-bottom: 4px; font-size: 0.9em; }
         .chat-input-area { display: flex; gap: 5px; }
-        #user-msg { flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ff4d6d; background: #1e293b; color: white; }
-        .btn-send { background: #ff4d6d; color: white; border: none; padding: 8px 12px; border-radius: 5px; font-weight: bold; }
-        
-        .adage { border-left: 5px solid #ff4d6d; padding-left: 10px; font-style: italic; color: #cbd5e1; }
+        #user-msg { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ff4d6d; background: #1e293b; color: white; }
+        .btn-send { background: #ff4d6d; color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .adage { border-left: 5px solid #ff4d6d; padding-left: 10px; font-style: italic; color: #cbd5e1; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -42,13 +37,13 @@
         <h3 style="margin-top:0; color:#ff4d6d;">💬 Discussion</h3>
         <div id="chat-box">
             <div class="chat-msg">
-                <strong style="color:#ff4d6d;">Jospin :</strong> Salut ! Ton Hub est superbe.<br>
-                <small style="color:gray;">il y a 8 heures</small>
+                <strong style="color:#ff4d6d;">Jospin :</strong> Salut Barnabas !<br>
+                <small style="color:gray;">Connecté</small>
             </div>
         </div>
         <div class="chat-input-area">
-            <input type="text" id="user-msg" placeholder="Ton message...">
-            <button class="btn-send" onclick="envoyerMessage()">OK</button>
+            <input type="text" id="user-msg" placeholder="Écris ici...">
+            <button class="btn-send" onclick="faireChat()">OK</button>
         </div>
     </div>
 
@@ -59,24 +54,27 @@
 
     <div class="section-box" style="border-color: #00f2ff;">
         <h3 style="margin-top:0; color:#00f2ff;">🔍 Geo-RDC Explorer</h3>
-        <input type="text" id="moteur" placeholder="Chercher une province..." onkeyup="chercher()">
-        <div id="affichage"></div>
+        <input type="text" id="moteur" placeholder="Tape une province..." onkeyup="faireRecherche()">
+        <div id="affichage-resultats"></div>
     </div>
 </div>
 
 <script src="rdc.js"></script>
 
 <script>
-// --- FONCTION RECHERCHE ---
-function chercher() {
-    let texte = document.getElementById("moteur").value.toLowerCase();
-    let zone = document.getElementById("affichage");
+// 1. FONCTION RECHERCHE
+function faireRecherche() {
+    let mot = document.getElementById("moteur").value.toLowerCase();
+    let zone = document.getElementById("affichage-resultats");
     zone.innerHTML = "";
-    if(texte.length < 2) return;
+    
+    if(mot.length < 2) return;
 
     if (typeof rdcData !== 'undefined') {
         rdcData.provinces.forEach(p => {
-            let matchP = p.nom.toLowerCase().includes(texte);
-            let matchT = p.territoires && p.territoires.some(t => t.toLowerCase().includes(texte));
-            if(matchP || matchT) {
+            let pNom = p.nom.toLowerCase();
+            let matchT = p.territoires && p.territoires.some(t => t.toLowerCase().includes(mot));
+            
+            if(pNom.includes(mot) || matchT) {
                 zone.innerHTML += `
+                    <

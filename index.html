@@ -3,53 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barnabas Hub</title>
+    <title>Barnabas Hub 🇨🇩</title>
     <style>
-        body { background-color: #0f172a; color: white; font-family: sans-serif; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 15px; width: 100%; max-width: 400px; }
+        body { background-color: #0f172a; color: white; font-family: sans-serif; padding: 15px; display: flex; flex-direction: column; align-items: center; margin: 0; }
+        .container { background-color: #1e293b; border: 2px solid #ff4d6d; border-radius: 20px; padding: 15px; width: 100%; max-width: 400px; box-sizing: border-box; }
         .box { background-color: #334155; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #ff4d6d; }
-        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #00f2ff; background: #0f172a; color: white; box-sizing: border-box; }
-        .card { border: 1px solid #00f2ff; padding: 10px; border-radius: 10px; margin-top: 10px; background: rgba(0, 242, 255, 0.1); }
+        #chat-box { max-height: 100px; overflow-y: auto; background: #0f172a; padding: 10px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #444; font-size: 0.9em; }
+        #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #00f2ff; background: #0f172a; color: white; box-sizing: border-box; font-size: 16px; }
+        .card { border: 1px solid #00f2ff; padding: 12px; border-radius: 12px; margin-top: 10px; background: rgba(0, 242, 255, 0.1); }
+        .t-list { font-size: 0.8em; color: #cbd5e1; margin-top: 5px; border-top: 1px solid #444; padding-top: 5px; line-height: 1.4; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <h1 style="text-align:center; color:#ff4d6d;">Barnabas Hub 🇨🇩</h1>
-
+    <h1 style="text-align:center; color:#ff4d6d; font-size: 1.5em; margin-bottom: 20px;">Barnabas Hub 🇨🇩</h1>
     <div class="box">
-        <h3 style="margin:0; color:#00f2ff;">🔍 Chercher une Province</h3>
-        <input type="text" id="moteur" placeholder="Tapez ici (ex: Katanga)..." onkeyup="chercher()">
+        <h3 style="margin:0 0 10px 0; color:#ff4d6d;">💬 Discussion</h3>
+        <div id="chat-box"><div id="chat-content"><strong>Jospin:</strong> Tape le nom d'une province !</div></div>
+        <div style="display: flex; gap: 5px;">
+            <input type="text" id="msg" placeholder="Message..." style="flex:1; padding:8px; border-radius:5px; border:1px solid #ff4d6d; background:#0f172a; color:white;">
+            <button onclick="envoyer()" style="background:#ff4d6d; color:white; border:none; padding:8px 15px; border-radius:5px; font-weight:bold;">OK</button>
+        </div>
+    </div>
+    <div class="box" style="border-color: #00f2ff;">
+        <h3 style="margin:0 0 10px 0; color:#00f2ff;">🔍 Geo-RDC Explorer</h3>
+        <input type="text" id="moteur" placeholder="Ex: Ituri, Kasai..." oninput="chercher()">
         <div id="resultats"></div>
     </div>
 </div>
-
 <script>
-// DONNÉES SIMPLIFIÉES
-const provinces = [
-    { n: "Haut-Katanga", c: "Lubumbashi", t: "Sakania, Kipushi, Kambove" },
+const rdc = [
+    { n: "Bas-Uele", c: "Buta", t: "Aketi, Ango, Bambesa, Bondo, Poko" },
+    { n: "Equateur", c: "Mbandaka", t: "Basankusu, Bikoro, Bolomba, Bomongo, Makanza" },
+    { n: "Haut-Katanga", c: "Lubumbashi", t: "Kambove, Kipushi, Pweto, Sakania" },
+    { n: "Haut-Lomami", c: "Kamina", t: "Bukama, Kabongo, Kamina, Kaniama" },
+    { n: "Haut-Uele", c: "Isiro", t: "Dungu, Faradje, Niangara, Wamba, Watsa" },
+    { n: "Ituri", c: "Bunia", t: "Aru, Djugu, Irumu, Mahagi, Mambasa" },
+    { n: "Kasai", c: "Tshikapa", t: "Dekese, Kamonia, Luebo, Mweka, Ilebo" },
+    { n: "Kasai-Central", c: "Kananga", t: "Demba, Dibaya, Dimbelenge, Kazumba, Luiza" },
+    { n: "Kasai-Oriental", c: "Mbuji-Mayi", t: "Katanda, Lupatapata, Miabi, Tshilenge" },
     { n: "Kinshasa", c: "Kinshasa", t: "N'sele, Maluku" },
-    { n: "Ituri", c: "Bunia", t: "Aru, Mahagi, Djugu" },
-    { n: "Lualaba", c: "Kolwezi", t: "Mutshatsha, Lubudi" },
-    { n: "Nord-Kivu", c: "Goma", t: "Beni, Masisi, Rutshuru" },
-    { n: "Sud-Kivu", c: "Bukavu", t: "Uvira, Fizi, Walungu" }
+    { n: "Kongo-Central", c: "Matadi", t: "Kasangulu, Kimvula, Moanda, Mbanza-Ngungu" },{ n: "Kwango", c: "Kenge", t: "Feshi, Kahemba, Popokabaka" },
+    { n: "Kwilu", c: "Bandundu", t: "Bagata, Bulungu, Gungu, Idiofa" },
+    { n: "Lomami", c: "Kabinda", t: "Gandajika, Kabinda, Kamiji, Lubao" },
+    { n: "Lualaba", c: "Kolwezi", t: "Dilolo, Kapanga, Lubudi, Mutshatsha, Sandoa" },
+    { n: "Mai-Ndombe", c: "Inongo", t: "Bolobo, Inongo, Kutu, Kwamouth, Oshwe" },
+    { n: "Maniema", c: "Kindu", t: "Kabambare, Kasongo, Kibombo, Pangi" },
+    { n: "Nord-Kivu", c: "Goma", t: "Beni, Lubero, Masisi, Rutshuru, Walikale" },
+    { n: "Nord-Ubangi", c: "Gbadolite", t: "Bosobolo, Businga, Mobayi-Mbongo" },
+    { n: "Sankuru", c: "Lusambo", t: "Kole, Lodja, Lomela, Katako-Kombe" },
+    { n: "Sud-Kivu", c: "Bukavu", t: "Fizi, Idjwi, Kabare, Kalehe, Uvira, Walungu" },
+    { n: "Sud-Ubangi", c: "Gemena", t: "Budjala, Gemena, Kungu, Libenge" },
+    { n: "Tanganyika", c: "Kalemie", t: "Kabalo, Kongolo, Moba, Manono" },
+    { n: "Tshopo", c: "Kisangani", t: "Bafwasende, Banalia, Basoko, Isangi" },
+    { n: "Tshuapa", c: "Boende", t: "Befale, Boende, Ikela, Monkoto" },
+    { n: "Mongala", c: "Lisala", t: "Bumba, Bongandanga, Lisala" }
 ];
-
+function envoyer() {
+    let m = document.getElementById("msg");
+    let b = document.getElementById("chat-content");
+    if(m.value.trim() !== "") {
+        b.innerHTML += `<br><strong>Moi:</strong> ${m.value}`;
+        m.value = "";
+    }
+}
 function chercher() {
-    let input = document.getElementById("moteur").value.toLowerCase();
+    let input = document.getElementById("moteur").value.toLowerCase().trim();
     let zone = document.getElementById("resultats");
     zone.innerHTML = "";
-    
     if(input.length < 2) return;
-
-    provinces.forEach(p => {
-        if(p.n.toLowerCase().includes(input)) {
-            zone.innerHTML += `
-                <div class="card">
-                    <strong style="color:#00f2ff;">${p.n}</strong><br>
-                    <small>Chef-lieu: ${p.c}</small><br>
-                    <small style="color:#ccc;">Territoires: ${p.t}</small>
-                </div>`;
+    rdc.forEach(p => {
+        if(p.n.toLowerCase().includes(input) || p.t.toLowerCase().includes(input)) {
+            zone.innerHTML += `<div class="card"><strong style="color:#00f2ff;">${p.n}</strong><br><small>📍 Chef: ${p.c}</small><div class="t-list">🏘️ ${p.t}</div></div>`;
         }
     });
 }

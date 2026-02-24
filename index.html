@@ -11,7 +11,7 @@
         #chat-box { max-height: 100px; overflow-y: auto; background: #0f172a; padding: 10px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #444; }
         #moteur { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #00f2ff; background: #0f172a; color: white; box-sizing: border-box; font-size: 16px; }
         .card { border: 1px solid #00f2ff; padding: 12px; border-radius: 12px; margin-top: 10px; background: rgba(0, 242, 255, 0.1); }
-        .t-list { font-size: 0.85em; color: #cbd5e1; margin-top: 5px; border-top: 1px solid #444; padding-top: 5px; line-height: 1.4; }
+        .t-list { font-size: 0.85em; color: #cbd5e1; margin-top: 5px; border-top: 1px solid #444; padding-top: 5px; }
     </style>
 </head>
 <body>
@@ -21,9 +21,7 @@
 
     <div class="box">
         <h3 style="margin:0; color:#ff4d6d;">💬 Discussion</h3>
-        <div id="chat-box">
-            <div><strong style="color:#ff4d6d;">Jospin:</strong> Tout est prêt !</div>
-        </div>
+        <div id="chat-box"><div><strong style="color:#ff4d6d;">Jospin:</strong> Teste maintenant !</div></div>
         <div style="display: flex; gap: 5px;">
             <input type="text" id="msg" placeholder="Message..." style="flex:1; padding:8px; border-radius:5px; border:1px solid #ff4d6d; background:#0f172a; color:white;">
             <button onclick="envoyer()" style="background:#ff4d6d; color:white; border:none; padding:8px 15px; border-radius:5px; font-weight:bold;">OK</button>
@@ -32,7 +30,7 @@
 
     <div class="box" style="border-color: #00f2ff;">
         <h3 style="margin:0; color:#00f2ff;">🔍 Geo-RDC Explorer</h3>
-        <input type="text" id="moteur" placeholder="Tapez une province..." oninput="chercher()">
+        <input type="text" id="moteur" placeholder="Tapez une province (ex: Kasai)..." oninput="chercher()">
         <div id="resultats"></div>
     </div>
 </div>
@@ -40,17 +38,20 @@
 <script>
 const rdcData = {
     provinces: [
-        { nom: "Bas-Uélé", chef_lieu: "Buta", territoires: ["Aketi", "Ango", "Bambesa", "Bondo", "Buta", "Poko"] },
-        { nom: "Équateur", chef_lieu: "Mbandaka", territoires: ["Basankusu", "Bikoro", "Bolomba", "Bomongo", "Ingende", "Lukolela", "Makanza"] },
-        { nom: "Haut-Katanga", chef_lieu: "Lubumbashi", territoires: ["Kambove", "Kasenga", "Kipushi", "Mitwaba", "Pweto", "Sakania"] },
-        { nom: "Haut-Lomami", chef_lieu: "Kamina", territoires: ["Bukama", "Kabongo", "Kamina", "Kaniama", "Malemba-ulu"] },
-        { nom: "Haut-Uélé", chef_lieu: "Isiro", territoires: ["Dungu", "Faradje", "Niangara", "Rungu", "Wamba", "Watsa"] },
-        { nom: "Ituri", chef_lieu: "Bunia", territoires: ["Aru", "Djugu", "Irumu", "Mahagi", "Mambasa"] },
-        { nom: "Kasaï", chef_lieu: "Tshikapa", territoires: ["Dekese", "Kamonia", "Luebo", "Mweka", "Ilebo"] },
-        { nom: "Kasaï-Central", chef_lieu: "Kananga", territoires: ["Demba", "Dibaya", "Dimbelenge", "Kazumba", "Luiza"] },
-        { nom: "Kasaï-Oriental", chef_lieu: "Mbuji-Mayi", territoires: ["Kabeya-Kamwanga", "Katanda", "Lupatapata", "Miabi", "Tshilenge"] },
-        { nom: "Kinshasa", chef_lieu: "Kinshasa", territoires: ["N'sele", "Maluku"] },
-        { nom: "Kongo-Central", chef_lieu: "Matadi", territoires: ["Kasangulu", "Kimvula", "Lukula", "Luozi", "Madimba", "Mbanza-Ngungu", "Moanda", "Sekebanza", "Songololo", "Tshela"] },
-        { nom: "Kwango", chef_lieu: "Kenge", territoires: ["Feshi", "Kahemba", "Kashatshatsha", "Kenge", "Popokabaka"] },
-        { nom: "Kwilu", chef_lieu: "Bandundu", territoires: ["Bagata", "Bulungu", "Gungu", "Idiofa", "Masi-Manimba"] },
-        { nom: "Lomami", chef_lieu: "Kabinda", territoires: ["Gandajika",
+        { nom: "Bas-Uélé", chef: "Buta", terr: ["Aketi", "Ango", "Bambesa", "Bondo", "Buta", "Poko"] },
+        { nom: "Équateur", chef: "Mbandaka", terr: ["Basankusu", "Bikoro", "Bolomba", "Bomongo", "Ingende", "Lukolela", "Makanza"] },
+        { nom: "Haut-Katanga", chef: "Lubumbashi", terr: ["Kambove", "Kasenga", "Kipushi", "Mitwaba", "Pweto", "Sakania"] },
+        { nom: "Haut-Lomami", chef: "Kamina", terr: ["Bukama", "Kabongo", "Kamina", "Kaniama", "Malemba-ulu"] },
+        { nom: "Haut-Uélé", chef: "Isiro", terr: ["Dungu", "Faradje", "Niangara", "Rungu", "Wamba", "Watsa"] },
+        { nom: "Ituri", chef: "Bunia", terr: ["Aru", "Djugu", "Irumu", "Mahagi", "Mambasa"] },
+        { nom: "Kasaï", chef: "Tshikapa", terr: ["Dekese", "Kamonia", "Luebo", "Mweka", "Ilebo"] },
+        { nom: "Kasaï-Central", chef: "Kananga", terr: ["Demba", "Dibaya", "Dimbelenge", "Kazumba", "Luiza"] },
+        { nom: "Kasaï-Oriental", chef: "Mbuji-Mayi", terr: ["Kabeya", "Katanda", "Lupatapata", "Miabi", "Tshilenge"] },
+        { nom: "Kinshasa", chef: "Kinshasa", terr: ["N'sele", "Maluku"] },
+        { nom: "Kongo-Central", chef: "Matadi", terr: ["Kasangulu", "Kimvula", "Lukula", "Luozi", "Madimba", "Moanda"] },
+        { nom: "Kwango", chef: "Kenge", terr: ["Feshi", "Kahemba", "Kenge", "Popokabaka"] },
+        { nom: "Kwilu", chef: "Bandundu", terr: ["Bagata", "Bulungu", "Gungu", "Idiofa", "Masi-Manimba"] },
+        { nom: "Lomami", chef: "Kabinda", terr: ["Gandajika", "Kabinda", "Kamiji", "Lubao", "Luilu"] },
+        { nom: "Lualaba", chef: "Kolwezi", terr: ["Dilolo", "Kapanga", "Lubudi", "Mutshatsha", "Sandoa"] },
+        { nom: "Mai-Ndombe", chef: "Inongo", terr: ["Bolobo", "Inongo", "Kiri", "Kutu", "Kwamouth", "Oshwe"] },
+        { n

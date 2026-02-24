@@ -1,0 +1,9 @@
+const rdcData = {
+  provinces: [
+    { nom: "Kinshasa", chef_lieu: "Kinshasa", entites: ["Gombe", "Ngaliema", "Limete", "Matete", "Kalamu"] },
+    { nom: "Nord-Kivu", chef_lieu: "Goma", territoires: ["Beni", "Lubero", "Masisi", "Nyiragongo", "Rutshuru", "Walikale"] },
+    { nom: "Sud-Kivu", chef_lieu: "Bukavu", territoires: ["Fizi", "Idjwi", "Kabare", "Kalehe", "Mwenga", "Shabunda", "Uvira", "Walungu"] },
+    { nom: "Haut-Katanga", chef_lieu: "Lubumbashi", territoires: ["Kambove", "Kasenga", "Kipushi", "Mitwaba", "Pweto", "Sakania"] }
+    // On pourra ajouter les autres au fur et à mesure !
+  ]
+};
